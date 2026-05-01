@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KKW Fulfillment Intake</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #cbd5f5;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      background: #38bdf8;
+      border: none;
+      padding: 15px 20px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .success {
+      display: none;
+      background: #16a34a;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Fulfillment Setup Assessment</h1>
+    <p>
+      Before we structure your fulfillment setup, we map your operation in detail
+      to ensure everything runs clean as you scale.
+    </p>
+
+    <form id="intakeForm">
+
+      <div class="section">
+        <h3>Business & Volume</h3>
+        <label>Monthly Order Volume</label>
+        <input type="text" name="order_volume" required />
+
+        <label>Projected Growth (60–90 days)</label>
+        <input type="text" name="growth_projection" />
+      </div>
+
+      <div class="section">
+        <h3>Products</h3>
+        <label>Total SKUs</label>
+        <input type="text" name="sku_count" />
+
+        <label>Average Order Composition</label>
+        <input type="text" name="order_composition" />
+
+        <label>Fragile or High Value Items?</label>
+        <textarea name="fragile_items"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Packaging</h3>
+        <label>Packaging Requirements</label>
+        <textarea name="packaging"></textarea>
+
+        <label>Is Unboxing Critical?</label>
+        <select name="unboxing_priority">
+          <option value="core">Core to brand</option>
+          <option value="nice">Nice to have</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <h3>Fulfillment</h3>
+        <label>Current Setup</label>
+        <input type="text" name="current_fulfillment" />
+
+        <label>Biggest Issue Right Now</label>
+        <textarea name="pain_points"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Wholesale / B2B</h3>
+        <label>Wholesale Orders?</label>
+        <input type="text" name="wholesale" />
+
+        <label>LTL / Freight Needs</label>
+        <textarea name="ltl"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Systems</h3>
+        <label>Other Systems (ERP, Inventory, etc.)</label>
+        <textarea name="systems"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Shipping</h3>
+        <label>Primary Customer Regions</label>
+        <input type="text" name="regions" />
+
+        <label>Shipping Challenges</label>
+        <textarea name="shipping_issues"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Returns & Insurance</h3>
+        <label>Return Process</label>
+        <textarea name="returns"></textarea>
+
+        <label>Insurance Needs</label>
+        <textarea name="insurance"></textarea>
+      </div>
+
+      <div class="section">
+        <h3>Final</h3>
+        <label>What does success look like?</label>
+        <textarea name="success"></textarea>
+
+        <label>Email</label>
+        <input type="email" name="email" required />
+      </div>
+
+      <button type="submit">Submit & Continue</button>
+    </form>
+
+    <div class="success" id="successMessage">
+      Thanks. We’ll review your setup and come back with a structured plan.
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("intakeForm");
+    const success = document.getElementById("successMessage");
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+
+      const response = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT", {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+        success.style.display = "block";
+
+        // Optional redirect after 2 sec
+        setTimeout(() => {
+          window.location.href = "/book-call";
+        }, 2000);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+
+</body>
+</html>
